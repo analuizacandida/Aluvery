@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,11 +30,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.aluvery.R
 import com.example.aluvery.extensions.toBrazilianCurrency
 import com.example.aluvery.product.Product
-import com.example.aluvery.ui.theme.Purple500
-import com.example.aluvery.ui.theme.Teal200
+import com.example.aluvery.ui.theme.AluveryTheme
 import java.math.BigDecimal
 
 @Composable
@@ -54,14 +55,15 @@ fun ProductItem(product: Product) {
                     .background(
                         brush = Brush.horizontalGradient(
                             colors = listOf(
-                                Purple500, Teal200
+                                MaterialTheme.colorScheme.primary,
+                                MaterialTheme.colorScheme.secondary
                             )
                         )
                     )
                     .fillMaxWidth()
             ) {
-                Image(
-                    painter = painterResource(id = product.image),
+                AsyncImage(
+                    model = product.image,
                     contentDescription = "imagem do produto",
                     Modifier
                         .size(imageSize)
@@ -95,11 +97,14 @@ fun ProductItem(product: Product) {
 @Preview(showBackground = true)
 @Composable
 private fun ProductItemPreview() {
-    ProductItem(
-        Product(
-            name = LoremIpsum(50).values.first(),
-            price = BigDecimal("14.99"),
-            image = R.drawable.ic_launcher_background
-        )
-    )
+    AluveryTheme {
+        Surface {
+            ProductItem(
+                Product(
+                    name = LoremIpsum(50).values.first(),
+                    price = BigDecimal("14.99")
+                )
+            )
+        }
+    }
 }
